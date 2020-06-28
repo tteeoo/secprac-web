@@ -10,8 +10,9 @@ except:
 app = Flask(__name__)
 path = os.path.dirname(os.path.abspath(__file__))
 teams_file = os.path.join(path, 'json', 'teams.json')
-if __name__=='__main__':
-    debug=True
+debug = False
+if __name__ == '__main__':
+    debug = True
 
 @app.route('/')
 def home():
