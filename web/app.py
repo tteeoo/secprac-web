@@ -3,12 +3,13 @@ from werkzeug.exceptions import HTTPException
 import os
 import json
 try:
-    from .base_utils import readjson, checkjson, writejson, errors
+    from .base_utils import readjson, checkjson, writejson, errors, gen_id
 except: 
-    from base_utils import readjson, checkjson, writejson, errors
+    from base_utils import readjson, checkjson, writejson, errors, gen_id
 
 app = Flask(__name__)
 path = os.path.dirname(os.path.abspath(__file__))
+teams_file = os.path.join(path, 'json', 'teams.json')
 if __name__=='__main__':
     debug=True
 
@@ -22,7 +23,21 @@ def create_team():
         data = json.loads(request.data.decode('utf-8'))
     except:
         return errors.bad_json
-    return 'df'
+    checkjson('teams')
+    token = data['Token']
+    teams = readjson(teams_file)
+    tid = gen_id(teams)
+    if token not in teams:
+        team = {
+            'id': tid,
+            'ip': request.remote_addr,
+            'token': token,
+            'points': 0
+        }
+        teams[token] = team
+        writejson(teams_file, teams)
+        return {'ID': tid}
+    return {'ID': teams[token]['id']}
 
 #errors
 if not debug:

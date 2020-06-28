@@ -1,5 +1,6 @@
 import json
 import os
+import random
 
 path = path = os.path.dirname(os.path.abspath(__file__))
 
@@ -18,6 +19,12 @@ def readjson(file):
 def writejson(file, data):
     with open(file, 'w') as e:
         json.dump(data, e)
+
+def gen_id(teams):
+    if teams == {}:
+        return '0'
+    nums = [teams[t]['id'] for t in teams]
+    return str(int(max(nums)) + 1)
 
 class errors:
     bad_method = {'error': {'status': 405, 'message': 'method not allowed'}}
