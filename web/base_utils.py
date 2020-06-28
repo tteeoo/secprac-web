@@ -23,7 +23,7 @@ def writejson(file, data):
 def gen_id(teams):
     if teams == {}:
         return '0'
-    nums = [teams[t]['id'] for t in teams]
+    nums = [int(teams[t]['id']) for t in teams]
     return str(int(max(nums)) + 1)
 
 class errors:
