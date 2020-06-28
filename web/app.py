@@ -1,6 +1,7 @@
 from flask import Flask, request
 from werkzeug.exceptions import HTTPException
 import os
+import json
 try:
     from .base_utils import readjson, checkjson, writejson
 except: 
@@ -8,6 +9,8 @@ except:
 
 app = Flask(__name__)
 path = os.path.dirname(os.path.abspath(__file__))
+if __name__=='__main__':
+    debug=True
 
 @app.route('/')
 def home():
@@ -15,20 +18,23 @@ def home():
 #api
 @app.route('/api/team/create', methods=['post'])
 def create_team():
-    return 'good boy'
+    data = request.data.decode('utf-8')
+    return json.loads(data)
 
-@app.errorhandler(Exception)
-def error(e):
-    code = 500
-    name = "Internal Server Error"
-    if isinstance(e, HTTPException):
-        code = e.code
-        name = e.name
-    print(request.path)
-    if request.path.startswith('/api'):
+#errors
+if not debug:
+    @app.errorhandler(Exception)
+    def error(e):
+        code = 500
+        name = "Internal Server Error"
+        if isinstance(e, HTTPException):
+            code = e.code
+            name = e.name
+        print(request.path)
+        if request.path.startswith('/api'):
+            return {'error': {'message': name, 'status': code}}
+        #change when error pages
         return {'error': {'message': name, 'status': code}}
-    #change when error pages
-    return {'error': {'message': name, 'status': code}}
 
 if __name__=='__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=debug, host='0.0.0.0')
