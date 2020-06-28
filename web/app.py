@@ -24,7 +24,7 @@ def create_team():
     except:
         return errors.bad_json
     checkjson('teams')
-    token = data['Token']
+    token = data['token']
     teams = readjson(teams_file)
     tid = gen_id(teams)
     if token not in teams:
@@ -36,8 +36,8 @@ def create_team():
         }
         teams[token] = team
         writejson(teams_file, teams)
-        return {'ID': tid}
-    return {'ID': teams[token]['id']}
+        return {'id': tid}
+    return {'id': teams[token]['id']}
 
 #errors
 if not debug:
