@@ -13,10 +13,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 def home():
     return {'message': 'yo'}
 #api
-@app.route('/api/team/create')
+@app.route('/api/team/create', methods=['post'])
 def create_team():
-    if request.method != 'POST':
-        return errors.bad_method
     return 'good boy'
 
 @app.errorhandler(Exception)
@@ -25,7 +23,11 @@ def error(e):
     name = "Internal Server Error"
     if isinstance(e, HTTPException):
         code = e.code
-        name = " " + e.name
+        name = e.name
+    print(request.path)
+    if request.path.startswith('/api'):
+        return {'error': {'message': name, 'status': code}}
+    #change when error pages
     return {'error': {'message': name, 'status': code}}
 
 if __name__=='__main__':
