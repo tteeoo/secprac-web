@@ -18,8 +18,3 @@ def readjson(file):
 def writejson(file, data):
     with open(file, 'w') as e:
         json.dump(data, e)
-
-class errors:
-    bad_method = {'error': {'status': 405, 'message': 'method not allowed'}}
-    not_found = {'error': {'status': 404, 'message': 'not found'}}
-    
