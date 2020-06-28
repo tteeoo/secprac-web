@@ -1,5 +1,5 @@
-# docker build -t website .
-# docker run -dit -p 1010:1010 --name website website
+# docker build -t secprac .
+# docker run -dit -p 1008:1008 --name secprac secprac
 FROM alpine:3.7
 
 RUN apk update && \
@@ -14,4 +14,4 @@ RUN pip3 install gunicorn
 
 COPY . /app
 
-CMD ["gunicorn", "--workers=4", "--bind", "0.0.0.0:1010", "wsgi"]
+CMD ["gunicorn", "--workers=4", "--bind", "0.0.0.0:1008", "wsgi"]
