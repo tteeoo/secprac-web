@@ -3,9 +3,9 @@ from werkzeug.exceptions import HTTPException
 import os
 import json
 try:
-    from .base_utils import readjson, checkjson, writejson
+    from .base_utils import readjson, checkjson, writejson, errors
 except: 
-    from base_utils import readjson, checkjson, writejson
+    from base_utils import readjson, checkjson, writejson, errors
 
 app = Flask(__name__)
 path = os.path.dirname(os.path.abspath(__file__))
@@ -18,8 +18,11 @@ def home():
 #api
 @app.route('/api/team/create', methods=['post'])
 def create_team():
-    data = request.data.decode('utf-8')
-    return json.loads(data)
+    try:
+        data = json.loads(request.data.decode('utf-8'))
+    except:
+        return errors.bad_json
+    return 'df'
 
 #errors
 if not debug:
