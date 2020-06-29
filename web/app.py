@@ -17,7 +17,9 @@ if __name__ == '__main__':
 @app.route('/')
 def home():
     return {'message': 'yo'}
-#api
+#api ednpoints
+
+#endpoint to create new team
 @app.route('/api/team/create', methods=['post'])
 def create_team():
     try:
@@ -27,13 +29,17 @@ def create_team():
     checkjson('teams')
     token = data['token']
     teams = readjson(teams_file)
+    time = data['time']
     tid = gen_id(teams)
     if token not in teams:
         team = {
             'id': tid,
             'ip': request.remote_addr,
             'token': token,
-            'points': 0
+            'points': 0,
+            'times': {
+                time: {'points': 0}
+            }
         }
         teams[token] = team
         writejson(teams_file, teams)
@@ -41,14 +47,16 @@ def create_team():
     return {'id': teams[token]['id']}
 
 #errors
-if not debug:
+if debug:
     @app.errorhandler(Exception)
-    def error(e):
+    def error(e, message=None):
         code = 500
         name = "Internal Server Error"
         if isinstance(e, HTTPException):
             code = e.code
             name = e.name
+            if message:
+                name = message
         print(request.path)
         if request.path.startswith('/api'):
             return {'error': {'message': name, 'status': code}}
