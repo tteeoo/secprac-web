@@ -73,9 +73,43 @@ def vulns_f():
     raise ApiError('no token provided', 401)
 
 #endpoint to set vuln as completed
-@app.route('/api/vuln/done/', methods=['post'])
+@app.route('/api/vuln/done', methods=['post'])
 def done():
+    try:
+        data = json.loads(request.data.decode('utf-8'))
+    except:
+        raise ApiError('bad json', 400)
+    checkjson('teams')
+    teams = readjson(teams_file)
+    if 'token' not in data:
+        raise ApiError('no token provided', 401)
+    if 'name' not in data:
+        raise ApiError('no name provided', 401)
+    token, name = data['token'], data['name']
+    if token not in teams:
+        raise ApiError('invalid token', 401)
+    if name not in teams[token]['vulns']:
+        raise ApiError('invalid vuln name', 400)
+    teams[token]['vulns'][name] = True
+    writejson(teams_file, teams)
+    vulns = readjson(vulns_file)
+    return {'awarded': vulns[name]['points']}
+
+#endpoint to download scripts
+@app.route('/api/scripts/<name>')
+def download_script(name):
     token = request.headers.get('token')
+    checkjson('teams')
+    t = readjson(teams_file)
+    if token:
+        if token in t:
+            f = open('scripts/{}'.format(name), 'r')
+            c = f.read()
+            return c
+        raise ApiError('invalid token', 401)
+    raise ApiError('no token provided', 401)
+
+
 #errors
 if not debug:
     @app.errorhandler(Exception)
