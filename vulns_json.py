@@ -19,8 +19,8 @@ if files == []:
 for file in files:
     name = file.replace('.sh', '')
     contents[name] = {
-        'shell': 'bash',
-        'url': '/api/scripts/{}'.format(file),
+        'shell': '/bin/bash',
+        'url': '/{}'.format(file),
         'points': 2,
         'name': name
     }
