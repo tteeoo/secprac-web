@@ -11,6 +11,10 @@ app = Flask(__name__)
 path = os.path.dirname(os.path.abspath(__file__))
 teams_file = os.path.join(path, 'json', 'teams.json')
 vulns_file = os.path.join(path, 'json', 'vulns.json')
+checkjson('vulns')
+if readjson(vulns_file) == {} or readjson(vulns_file) == []:
+    print('please enter a valid vulns.json file')
+    exit()
 debug = False
 if __name__ == '__main__':
     debug = True
@@ -35,6 +39,8 @@ def create_team():
     checkjson('teams')
     token = data['token']
     teams = readjson(teams_file)
+    vulns = readjson(vulns_file)
+    vs = {i['name']: False for i in vulns}
     time = data['time']
     tid = gen_id(teams)
     if token not in teams:
@@ -45,7 +51,8 @@ def create_team():
             'points': 0,
             'times': {
                 time: {'points': 0}
-            }
+            },
+            'vulns': vs
         }
         teams[token] = team
         writejson(teams_file, teams)
@@ -64,6 +71,11 @@ def vulns_f():
             return json.dumps(file)
         raise ApiError('invalid token', 401)
     raise ApiError('no token provided', 401)
+
+#endpoint to set vuln as completed
+@app.route('/api/vuln/done/', methods=['post'])
+def done():
+    token = request.headers.get('token')
 #errors
 if not debug:
     @app.errorhandler(Exception)
