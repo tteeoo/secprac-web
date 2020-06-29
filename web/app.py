@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 from werkzeug.exceptions import HTTPException
 import os
 import json
@@ -40,7 +40,7 @@ def create_team():
     token = data['token']
     teams = readjson(teams_file)
     vulns = readjson(vulns_file)
-    vs = {i['name']: False for i in vulns}
+    vs = {i: False for i in vulns}
     time = data['time']
     tid = gen_id(teams)
     if token not in teams:
@@ -98,6 +98,8 @@ def done():
 #endpoint to download scripts
 @app.route('/api/scripts/<name>')
 def download_script(name):
+    if name not in os.listdir('./scripts'):
+        abort(404)
     token = request.headers.get('token')
     checkjson('teams')
     t = readjson(teams_file)
