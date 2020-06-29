@@ -4,6 +4,7 @@ import random
 
 path = path = os.path.dirname(os.path.abspath(__file__))
 
+#json functions
 def checkjson(name):
     name  = '{}.json'.format(name)
     if 'json' not in os.listdir(path):
@@ -26,8 +27,10 @@ def gen_id(teams):
     nums = [int(teams[t]['id']) for t in teams]
     return str(int(max(nums)) + 1)
 
-class errors:
-    bad_method = {'error': {'status': 405, 'message': 'method not allowed'}}
-    not_found = {'error': {'status': 404, 'message': 'not found'}}
-    bad_json = {'error': {'status': 400, 'message': 'bad json'}}
+
+#errors for API
+class ApiError(Exception):
+    def __init__(self, message, code):
+        self.message = message
+        self.code = code
     

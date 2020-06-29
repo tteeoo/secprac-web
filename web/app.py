@@ -3,9 +3,9 @@ from werkzeug.exceptions import HTTPException
 import os
 import json
 try:
-    from .base_utils import readjson, checkjson, writejson, errors, gen_id
+    from .base_utils import readjson, checkjson, writejson, errors, gen_id, ApiError
 except: 
-    from base_utils import readjson, checkjson, writejson, errors, gen_id
+    from base_utils import readjson, checkjson, writejson, errors, gen_id, ApiError
 
 app = Flask(__name__)
 path = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +25,7 @@ def create_team():
     try:
         data = json.loads(request.data.decode('utf-8'))
     except:
-        return errors.bad_json
+        raise ApiError('bad json', 400)
     checkjson('teams')
     token = data['token']
     teams = readjson(teams_file)
@@ -44,24 +44,27 @@ def create_team():
         teams[token] = team
         writejson(teams_file, teams)
         return {'id': tid}
-    return {'id': teams[token]['id']}
+    raise ApiError('team already registered', 400)
 
 #errors
-if debug:
+if not debug:
     @app.errorhandler(Exception)
-    def error(e, message=None):
+    def error(e):
         code = 500
         name = "Internal Server Error"
         if isinstance(e, HTTPException):
             code = e.code
             name = e.name
-            if message:
-                name = message
         print(request.path)
         if request.path.startswith('/api'):
             return {'error': {'message': name, 'status': code}}
         #change when error pages
         return {'error': {'message': name, 'status': code}}
+
+#api errors
+@app.errorhandler(ApiError)
+def api_e(e):
+    return {'error': {'status': e.code, 'message': e.message}}, e.code
 
 if __name__=='__main__':
     app.run(debug=debug, host='0.0.0.0')
