@@ -53,11 +53,16 @@ def create_team():
     raise ApiError('team already registered', 400)
 
 #endpoint to return the vulns.json file
-@app.route('/api/vulns.json')
+@app.route('/api/vuln/vulns.json', methods=['get'])
 def vulns_f():
-    if request.headers.get('token'):
-        file = readjson(vulns_file)
-        return json.dumps(file)
+    token = request.headers.get('token')
+    checkjson('teams')
+    t = readjson(teams_file)
+    if token:
+        if token in t:
+            file = readjson(vulns_file)
+            return json.dumps(file)
+        raise ApiError('invalid token', 401)
     raise ApiError('no token provided', 401)
 #errors
 if not debug:
@@ -70,7 +75,7 @@ if not debug:
             name = e.name
         print(request.path)
         if request.path.startswith('/api'):
-            return {'error': {'message': name, 'status': code}}
+            return {'error': {'message': name, 'status': code}}, code
         #change when error pages
         return {'error': {'message': name, 'status': code}}
 
