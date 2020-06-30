@@ -106,6 +106,40 @@ def done():
     writejson(teams_file, teams)
     return {'awarded': points}
 
+#endpoint for when vuln fix is undone
+@app.route('/api/vuln/undo', methods=['post'])
+def undo():
+    try:
+        data = json.loads(request.data.decode('utf-8'))
+    except:
+        raise ApiError('bad json', 400)
+    checkjson('teams')
+    teams = readjson(teams_file)
+    if 'token' not in data:
+        raise ApiError('no token provided', 401)
+    if 'name' not in data:
+        raise ApiError('no name provided', 401)
+    if 'time' not in data:
+        raise ApiError('no time provided', 401)
+    token, name, time = data['token'], data['name'], data['time']
+    if token not in teams:
+        raise ApiError('invalid token', 401)
+    if name not in teams[token]['vulns']:
+        raise ApiError('invalid vuln name', 400)
+    if not teams[token]['vulns'][name]:
+        raise ApiError('not solved', 400)
+    teams[token]['vulns'][name] = False
+    vulns = readjson(vulns_file)
+    points = 0 - vulns[name]['points']
+    new_points = teams[token]['points'] + points
+    teams[token]['points'] = new_points
+    teams[token]['times'][time] = {
+        'points': new_points
+    }
+    print(json.dumps(teams))
+    writejson(teams_file, teams)
+    return {'awarded': points}
+
 #endpoint to download scripts
 @app.route('/api/scripts/<name>')
 def download_script(name):
