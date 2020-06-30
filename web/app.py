@@ -122,7 +122,6 @@ def done():
     teams[token]['times'][time] = {
         'points': new_points
     }
-    print(json.dumps(teams))
     writejson(teams_file, teams)
     return {'awarded': points}
 
@@ -201,7 +200,6 @@ if not debug:
         if isinstance(e, HTTPException):
             code = e.code
             name = e.name
-        print(request.path)
         if request.path.startswith('/api'):
             return {'error': {'message': name, 'status': code}}, code
         #change when error pages
