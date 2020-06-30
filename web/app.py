@@ -77,8 +77,6 @@ def team_done():
     for v in vulns:
         if not vulns[v]:
             raise ApiError('team not completed', 400)
-    del teams[token]
-    writejson(teams_file, teams)
     return {'completed': True}
 
 #endpoint to return the vulns.json file
@@ -177,6 +175,22 @@ def download_script(name):
         raise ApiError('invalid token', 401)
     raise ApiError('no token provided', 401)
 
+
+#endpoint to get info for one team
+@app.route('/api/public/team/<name>', methods=['get'])
+def get_team(name):
+    checkjson('teams')
+    teams = readjson(teams_file)
+    if name not in teams:
+        raise ApiError('invalid token', 401)
+    return teams[name]
+
+#endpoint to get leaderboard
+@app.route('/api/public/leaderboard')
+def leaderboard():
+    checkjson('teams')
+    teams = readjson(teams_file)
+    return teams
 
 #errors
 if not debug:
