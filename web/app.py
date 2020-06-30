@@ -85,15 +85,26 @@ def done():
         raise ApiError('no token provided', 401)
     if 'name' not in data:
         raise ApiError('no name provided', 401)
-    token, name = data['token'], data['name']
+    if 'time' not in data:
+        raise ApiError('no time provided', 401)
+    token, name, time = data['token'], data['name'], data['time']
     if token not in teams:
         raise ApiError('invalid token', 401)
     if name not in teams[token]['vulns']:
         raise ApiError('invalid vuln name', 400)
+    if teams[token]['vulns'][name]:
+        raise ApiError('already solved', 400)
     teams[token]['vulns'][name] = True
-    writejson(teams_file, teams)
     vulns = readjson(vulns_file)
-    return {'awarded': vulns[name]['points']}
+    points = vulns[name]['points']
+    new_points = teams[token]['points'] + points
+    teams[token]['points'] = new_points
+    teams[token]['times'][time] = {
+        'points': new_points
+    }
+    print(json.dumps(teams))
+    writejson(teams_file, teams)
+    return {'awarded': points}
 
 #endpoint to download scripts
 @app.route('/api/scripts/<name>')
