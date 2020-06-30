@@ -59,6 +59,26 @@ def create_team():
         return {'id': tid}
     raise ApiError('team already registered', 400)
 
+#endpoint for team done
+@app.route('/api/team/done', methods=['post'])
+def team_done():
+    try:
+        data = json.loads(request.data.decode('utf-8'))
+    except:
+        raise ApiError('bad json', 400)
+    if 'token' not in data:
+        raise ApiError('no token provided', 401)
+    token = data['token']
+    teams = readjson(teams_file)
+    if token not in teams:
+        raise ApiError('invalid token', 401)
+    team = teams[token]
+    vulns = team['vulns']
+    for v in vulns:
+        if not vulns[v]:
+            raise ApiError('team not completed', 400)
+    return {'completed': True}
+
 #endpoint to return the vulns.json file
 @app.route('/api/vuln/vulns.json', methods=['get'])
 def vulns_f():
@@ -136,7 +156,6 @@ def undo():
     teams[token]['times'][time] = {
         'points': new_points
     }
-    print(json.dumps(teams))
     writejson(teams_file, teams)
     return {'awarded': points}
 
