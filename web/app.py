@@ -77,6 +77,8 @@ def team_done():
     for v in vulns:
         if not vulns[v]:
             raise ApiError('team not completed', 400)
+    del teams[token]
+    writejson(teams_file, teams)
     return {'completed': True}
 
 #endpoint to return the vulns.json file
