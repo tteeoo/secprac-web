@@ -20,7 +20,7 @@ for file in files:
     name = file.replace('.sh', '')
     contents[name] = {
         'shell': '/bin/bash',
-        'url': '/{}'.format(file),
+        'url': '{}'.format(file),
         'points': 2,
         'name': name
     }
