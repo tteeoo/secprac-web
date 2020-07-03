@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, Response
+from flask import Flask, request, abort
 from werkzeug.exceptions import HTTPException
 import os
 import json
