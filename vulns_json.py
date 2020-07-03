@@ -5,23 +5,49 @@ contents = {}
 files = os.listdir('./web/scripts')
 
 if os.path.isfile('./web/json/vulns.json'):
-    print('web/json/vulns.json already exists')
-    exit()
+    answer = ''
+    while answer != 'n' and answer != 'y':
+        answer = input('web/json/vulns.json already exists, overwrite? (y/n): ')
+    if answer == 'n':
+        exit(1)
 
 if not os.path.isdir('./web/scripts'):
     print('cannot find web/scripts/')
-    exit()
+    exit(1)
 
 if files == []:
     print('web/scripts/ is empty')
-    exit()
+    exit(1)
 
 for file in files:
-    name = file.replace('.sh', '')
+    f = open('./web/scripts/' + file, 'r')
+    data = f.readlines()
+    f.close()
+    shell = '/bin/bash'
+    name = file.split('.')[0]
+    points = 2
+
+    try:
+        if data[0][0] + data[0][1] == '#!':
+            shell = data[0][2:len(data[0])-1]
+        if data[1][0] == '#':
+            if data[1][1] == ' ':
+                name = data[1][2:]
+            else:
+                name = data[1][1:]
+            split = name.split(' ')
+            try:
+                points = int(split[-1])
+                name = ' '.join(split[:len(split)-1])
+            except TypeError:
+                pass
+    except IndexError:
+        pass
+
     contents[name] = {
-        'shell': '/bin/bash',
+        'shell': shell,
         'url': '{}'.format(file),
-        'points': 2,
+        'points': points,
         'name': name
     }
 
