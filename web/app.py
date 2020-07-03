@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, Response
 from werkzeug.exceptions import HTTPException
 import os
 import json
@@ -185,11 +185,37 @@ def get_team(name):
     return teams[name]
 
 #endpoint to get leaderboard
-@app.route('/api/public/leaderboard')
-def leaderboard():
+@app.route('/api/public/leaderboard/<per>/<page>')
+def leaderboard(per, page):
+    per = int(per)
+    page = int(page) - 1
     checkjson('teams')
-    teams = readjson(teams_file)
-    return teams
+    json_teams = readjson(teams_file)
+    teams = []
+    for team in json_teams:
+        teams.append({'id': json_teams[team]['id'], 'points': json_teams[team]['points']})
+    teams = sorted(teams, key=lambda k: k['points'], reverse=True)
+    page_count = 0
+    if len(teams) % per != 0:
+        page_count = round(len(teams) / per)
+        if page_count < len(teams) / 7:
+            page_count += 1
+    else:
+        page_count = round(len(teams) / per)
+    pages = {}
+    for i in range(page_count):
+        upper = i * per + per
+        if upper > len(teams):
+            upper = len(teams)
+        pages[i] = teams[i * per:upper]
+    data = {}
+    try:
+        pages[page]
+    except KeyError:
+        raise ApiError('page does not exist', 400)
+    for team in range(len(pages[page])):
+        data[page * per + team + 1] = pages[page][team]
+    return data
 
 #errors
 if not debug:
