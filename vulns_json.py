@@ -26,7 +26,10 @@ if files == []:
 for file in files:
 
     # read file
-    f = open('./web/scripts/' + file, 'r')
+    try:
+        f = open('./web/scripts/' + file, 'r')
+    except IsADirectoryError:
+        continue
     data = f.readlines()
     f.close()
 
@@ -65,11 +68,12 @@ for file in files:
     try:
         if data[2][0] == '#':
             if data[2][1] == ' ':
-                name = data[2][2:]
+                setup = data[2][2:]
             else:
-                name = data[2][1:]
-            split = name.split(' ')
-            setup = ' '.join(split[:len(split)-1])
+                setup = data[2][1:]
+            split = setup.split(' ')
+            setup = ' '.join(split)
+            setup = setup[:len(setup)-1]
     except IndexError:
         pass
 
