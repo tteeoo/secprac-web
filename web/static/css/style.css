@@ -1,0 +1,13 @@
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+* {
+	font-family: FiraSans-Light;
+}
+
+@font-face {
+	font-family: FiraSans-Light;
+	src: url(/static/ttf/FiraSans-Light.ttf);
+}

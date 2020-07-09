@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 from werkzeug.exceptions import HTTPException
 import os
 import json
@@ -7,7 +7,7 @@ try:
 except: 
     from base_utils import readjson, checkjson, writejson, gen_id, ApiError
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 path = os.path.dirname(os.path.abspath(__file__))
 teams_file = os.path.join(path, 'json', 'teams.json')
 vulns_file = os.path.join(path, 'json', 'vulns.json')
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 #home page
 @app.route('/')
 def home():
-    return {'message': 'yo'}
+    return render_template('index.html')
 
 
 #api endpoints
