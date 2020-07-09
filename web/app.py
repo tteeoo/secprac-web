@@ -174,6 +174,22 @@ def download_script(name):
         raise ApiError('invalid token', 401)
     raise ApiError('no token provided', 401)
 
+#endpoint to download setup scripts
+@app.route('/api/scripts/setup/<name>')
+def download_setup_script(name):
+    if name not in os.listdir('./scripts/setup'):
+        abort(404)
+    token = request.headers.get('token')
+    checkjson('teams')
+    t = readjson(teams_file)
+    if token:
+        if token in t:
+            f = open('scripts/setup/{}'.format(name), 'r')
+            c = f.read()
+            return c
+        raise ApiError('invalid token', 401)
+    raise ApiError('no token provided', 401)
+
 
 #endpoint to get info for one team
 @app.route('/api/public/team/<name>', methods=['get'])
