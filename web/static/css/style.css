@@ -72,8 +72,8 @@ a {
 }
 .monospace {
 	display: block;
-	padding: 14px;
-	margin: 14px 0;
+	padding: 0.8em;
+	margin: 0.8em 0;
 	background-color: #efefef;
 	border-radius: 8px;
 	font-size: 0.94em;
@@ -81,6 +81,7 @@ a {
 	word-break: break-all;
 }
 .inline-monospace {
+	margin: 0 1px;
 	padding: 4px;
 	background-color: #efefef;
 	border-radius: 6px;
@@ -112,7 +113,7 @@ a {
 }
 
 /* mobile */
-@media only screen and (max-width: 791px) {
+@media only screen and (max-width: 916px) {
 	#bar-wrapper {
 		width: 100%;
 		min-width: 0;
