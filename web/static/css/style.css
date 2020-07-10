@@ -81,11 +81,12 @@ a {
 	word-break: break-all;
 }
 .inline-monospace {
-	margin: 0 1px;
-	padding: 4px;
+	display: inline-block;
+	margin: 2px 1px;
+	padding: 0 4px;
 	background-color: #efefef;
 	border-radius: 6px;
-	font-size: 0.94em;
+	font-size: 0.8em;
 	font-family: FiraMono-Regular;
 }
 
@@ -124,13 +125,16 @@ a {
 		border: none;
 	}
 	#footer {
-		width: 100%;
+		width: 90%;
 		min-width: 0;
 	}
 }
-@media only screen and (max-width: 475px) {
+@media only screen and (max-width: 596px) {
+	#wrapper-padding {
+		padding-bottom: 2px;
+	}
 	#footer-link-wrapper {
-		float: none;
+		display: contents;
 	}
 	.footer-link {
 		display: block;
