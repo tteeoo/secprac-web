@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/x-icon" href="/static/img/secprac-logo.png"> 
+	{% block head %}{% endblock %}
+</head>
+<body>
+	<div id="bar">
+		<div id="bar-wrapper">
+			<a class="nav-link" href="/">
+				<img id="logo" src="/static/img/secprac-logo.png"></img>
+				<span id="title">secprac</span>
+			</a>
+			<a class="nav-link" href="/about">about</a>
+		</div>
+	</div>
+	<div id="wrapper">
+		<div id="wrapper-padding">
+			{% block body %}{% endblock %}
+		</div>
+	</div>
+	<div id="footer">
+		<span id="copy">
+			Copyright &copy; 2020 the secprac authors.
+		</span>
+		<span id="footer-link-wrapper">
+			<a class="footer-link" href="https://raw.githubusercontent.com/blueberry-jam/secprac-web/master/LICENSE">
+				License
+			</a>
+			<a class="footer-link" href="https://github.com/blueberry-jam/secprac-web">
+				Source code
+			</a>
+			<a class="footer-link" href="https://github.com/blueberry-jam/secprac-web/wiki">
+				Documentation
+			</a>
+		</span>
+	</div>
+</body>
+</html>
