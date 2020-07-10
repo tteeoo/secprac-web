@@ -1,13 +1,142 @@
+/* global */
+* {
+	font-family: FiraSans-Light;
+}
 body, html {
 	margin: 0;
 	padding: 0;
 }
-
-* {
-	font-family: FiraSans-Light;
+body {
+	background-color: #fefefe;
+	color: #000;
 }
-
 @font-face {
 	font-family: FiraSans-Light;
 	src: url(/static/ttf/FiraSans-Light.ttf);
+}
+@font-face {
+	font-family: FiraMono-Regular;
+	src: url(/static/ttf/FiraMono-Regular.ttf);
+}
+a {
+	color: #000;
+}
+
+/* nav bar */
+#bar {
+	z-index: 1;
+	position: relative;
+	width: 100%;
+	border-bottom: 2px solid #000;
+	background-color: #fff;
+	box-shadow: 0 1px 2px 0 #aaa;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+#bar-wrapper {
+	margin: auto;
+	min-width: 792px;
+	width: 60%;
+}
+#logo {
+	height: 28px;
+	width: 28px;
+	vertical-align: middle;
+}
+.nav-link {
+	text-decoration: none;
+	color: #000;
+	font-size: 1.5em;
+	margin: 0;
+	padding: 8px 16px;
+	vertical-align: middle;
+	display: inline-block;
+}
+.nav-link:hover {
+	background-image: linear-gradient(#ededed, #fff);
+	cursor: pointer;
+}
+
+/* main body */
+#wrapper {
+	min-width: 792px;
+	width: 60%;
+	background-color: #fff;
+	border: 1px solid #aaa;
+	margin: auto;
+	line-height: 1.6em;
+}
+#wrapper-padding {
+	padding: 32px;
+}
+.monospace {
+	display: block;
+	padding: 14px;
+	margin: 14px 0;
+	background-color: #efefef;
+	border-radius: 8px;
+	font-size: 0.94em;
+	font-family: FiraMono-Regular;
+	word-break: break-all;
+}
+.inline-monospace {
+	padding: 4px;
+	background-color: #efefef;
+	border-radius: 6px;
+	font-size: 0.94em;
+	font-family: FiraMono-Regular;
+}
+
+/* footer */
+#footer {
+	min-width: 792px;
+	width: 60%;
+	margin: auto;
+	margin-top: 16px;
+	margin-bottom: 42px;
+	font-size: 0.8em;
+}
+#copy {
+	margin: 16px;
+	display: inline-block;
+	color: #222;
+}
+#footer-link-wrapper {
+	margin: 16px;
+	float: right;
+}
+.footer-link {
+	margin: 0 8px;
+	color: #222;
+}
+
+/* mobile */
+@media only screen and (max-width: 791px) {
+	#bar-wrapper {
+		width: 100%;
+		min-width: 0;
+	}
+	#wrapper {
+		width: 100%;
+		min-width: 0;
+		border: none;
+	}
+	#footer {
+		width: 100%;
+		min-width: 0;
+	}
+}
+@media only screen and (max-width: 475px) {
+	#footer-link-wrapper {
+		float: none;
+	}
+	.footer-link {
+		display: block;
+		margin: 16px;
+		width: max-content;
+	}
+	#copy {
+		margin-bottom: 0;
+	}
 }
