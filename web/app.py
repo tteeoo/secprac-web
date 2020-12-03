@@ -15,6 +15,7 @@ checkjson('vulns')
 if readjson(vulns_file) == {} or readjson(vulns_file) == []:
     print('please enter a valid vulns.json file')
     exit()
+
 debug = False
 if __name__ == '__main__':
     debug = True
@@ -166,14 +167,16 @@ def undo():
 #endpoint to download scripts
 @app.route('/api/scripts/<name>')
 def download_script(name):
-    if name not in os.listdir('./scripts'):
+    if name not in os.listdir(os.path.join(path, 'scripts')):
         abort(404)
     token = request.headers.get('token')
     checkjson('teams')
     t = readjson(teams_file)
     if token:
         if token in t:
-            f = open('scripts/{}'.format(name), 'r')
+            if '..' in name:
+                raise ApiError('relative paths not allowed')
+            f = open(os.path.join(path, 'scripts', name), 'r')
             c = f.read()
             return c
         raise ApiError('invalid token', 401)
@@ -182,14 +185,16 @@ def download_script(name):
 #endpoint to download setup scripts
 @app.route('/api/scripts/setup/<name>')
 def download_setup_script(name):
-    if name not in os.listdir('./scripts/setup'):
+    if name not in os.listdir(os.path.join(path, 'scripts', 'setup')):
         abort(404)
     token = request.headers.get('token')
     checkjson('teams')
     t = readjson(teams_file)
     if token:
         if token in t:
-            f = open('scripts/setup/{}'.format(name), 'r')
+            if '..' in name:
+                raise ApiError('relative paths not allowed')
+            f = open(os.path.join(path, 'scripts', 'setup', name), 'r')
             c = f.read()
             return c
         raise ApiError('invalid token', 401)
