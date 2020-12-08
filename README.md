@@ -1,10 +1,10 @@
 # ![secprac-name.png](https://hosted.theohenson.com/secprac-name.png)
 ![Docker Image CI](https://github.com/blueberry-jam/secprac-web/workflows/Docker%20Image%20CI/badge.svg) ![license](https://img.shields.io/github/license/blueberry-jam/secprac-web)
  
-`secprac` is a platform to create cyber security practice games for Linux systems similar to the <a href="https://www.uscyberpatriot.org/">Cyber Patriot competition</a>.
+`secprac` is currently a work in progress.
 
-This is the web server which will host the front-end and API.
+`secprac` is a platform to create cyber security practice games for Linux systems, similar to the [CyberPatriot](https://www.uscyberpatriot.org/) competition.
 
-See client to run on the practice machines at <a href="https://github.com/blueberry-jam/secprac-client">blueberry-jam/secprac-client</a>.
+This is the web server which hosts the front-end and API.
 
-`secprac` is *very* WIP (Work In Progress).
+See client to run on the practice machines at [blueberry-jam/secprac-client](https://github.com/blueberry-jam/secprac-client).
