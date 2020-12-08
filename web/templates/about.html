@@ -11,26 +11,26 @@
 <img id="name" src="/static/img/secprac-name.svg"></img>
 <p>
 	<h2>What</h2>
-	<b>secprac</b> is a platform to create cyber security practice games for Linux systems similar to the <a href="https://www.uscyberpatriot.org/">Cyber Patriot competition</a>.
+	<b>secprac</b> is a platform to create cyber security practice games for Linux systems, similar to the <a href="https://www.uscyberpatriot.org/">CyberPatriot competition</a>.
 	<br>
-	<b>secprac</b> is <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">free and open source software</a> under the MIT License, originally developed by <a href="https://theohenson.com">Theo Henson</a> and <a href="https://greerpage.com">Greer Page</a>.
+	<b>secprac</b> is <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">free and open source software</a> released under the MIT License, originally developed by <a href="https://theohenson.com">Theo Henson</a> and <a href="https://greerpage.com">Greer Page</a>.
 	<h2>Why</h2>
-	<b>secprac</b> provides an easy to set up and extensible security training platform.
+	<b>secprac</b> provides an easy to set up an extensible security training platform.
 	<br>
-	Geared to imitate Cyber Patriot, <b>secprac</b> is a complete and effective way to prepare for the competition.
+	Made to imitate CyberPatriot, <b>secprac</b> is a complete and effective way to prepare for the competition.
 	<h2>How</h2>
 	<h3>Set up your own instance</h3>
 	Visit the <a href="https://github.com/blueberry-jam/secprac-web/wiki">wiki</a> to see how you can create your own <b>secprac</b> practice game.
 	<h3>Connect to an instance</h3>
 	Given that you are on a Linux virtual machine, run the following command in your terminal to install the client.
 	<div class="monospace">
-		curl https://raw.githubusercontent.com/blueberry-jam/secprac-client/master/install.sh | sudo sh
+		wget https://raw.githubusercontent.com/blueberry-jam/secprac-client/master/install.sh &amp;&amp; sudo sh install.sh
 	</div>
 	Once the client is installed, run this command to start:
 	<div class="monospace">
 		sudo secprac-start &lt;user&gt; &lt;server url&gt;
 	</div>
-	Replace <span class="inline-monospace">&lt;user&gt;</span> with the username of the current logged in user, and <span class="inline-monospace">&lt;server url&gt;</span> with the url of the server—e.g., the url of this website.
+	Replace <span class="inline-monospace">&lt;user&gt;</span> with the username of the current logged-in user, and <span class="inline-monospace">&lt;server url&gt;</span> with the URL of the server—i.w., the URL of this website.
 </p>
 
 {% endblock %}

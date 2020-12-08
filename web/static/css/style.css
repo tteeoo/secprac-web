@@ -23,6 +23,13 @@ a {
 }
 
 /* nav bar */
+#name {
+	height: auto;
+	width: 80%;
+	margin: auto;
+	display: block;
+	margin-bottom: 32px;
+}
 #bar {
 	z-index: 1;
 	position: relative;
@@ -129,7 +136,7 @@ a {
 		min-width: 0;
 	}
 }
-@media only screen and (max-width: 596px) {
+@media only screen and (max-width: 770px) {
 	#wrapper-padding {
 		padding-bottom: 2px;
 	}

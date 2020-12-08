@@ -2,11 +2,29 @@
 
 {% block head %}
 <title>secprac</title>
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <meta name="description" content="secprac is a platform to create cyber security practice games for Linux systems similar to the Cyber Patriot competition">
 {% endblock %}
 
 {% block body %}
 
-<h1>TODO: make leaderboard</h1>
+<img id="name" src="/static/img/secprac-name.svg"></img>
+<h1>Public Leaderboard</h1>
+<h3>{{ name }}, {{ points }} total points</h3>
+<p id="sub"></p>
+
+<noscript>JavaScript must be enabled to view the leaderboard.</noscript>
+
+<div id="board-container">
+	<table id="board">
+	</table>
+	<div id="controls">
+		<button id="prev" onclick="prevPage()">&lt;</button>
+		<span id="page"></span>
+		<button id="next" onclick="nextPage()">&gt;</button>
+	</div>
+</div>
+
+<script src="/static/js/leaderboard.js"></script>
 
 {% endblock %}
