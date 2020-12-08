@@ -178,14 +178,22 @@ def undo():
 # endpoint to download scripts
 @app.route('/api/scripts/<name>')
 def download_script(name):
+<<<<<<< HEAD
     if name not in os.listdir('./scripts'): abort(404)
 
+=======
+    if name not in os.listdir(os.path.join(path, 'scripts')):
+        abort(404)
+    token = request.headers.get('token')
+>>>>>>> 3a465e834abaac0babf0d2b3ceb16bbdeb707515
     checkjson('teams')
     t = readjson(teams_file)
     token = request.headers.get('token')
     if token:
         if token in t:
-            f = open('scripts/{}'.format(name), 'r')
+            if '..' in name:
+                raise ApiError('relative paths not allowed')
+            f = open(os.path.join(path, 'scripts', name), 'r')
             c = f.read()
             return c
         raise ApiError('invalid token', 401)
@@ -194,14 +202,22 @@ def download_script(name):
 # endpoint to download setup scripts
 @app.route('/api/scripts/setup/<name>')
 def download_setup_script(name):
+<<<<<<< HEAD
     if name not in os.listdir('./scripts/setup'): abort(404)
 
+=======
+    if name not in os.listdir(os.path.join(path, 'scripts', 'setup')):
+        abort(404)
+    token = request.headers.get('token')
+>>>>>>> 3a465e834abaac0babf0d2b3ceb16bbdeb707515
     checkjson('teams')
     t = readjson(teams_file)
     token = request.headers.get('token')
     if token:
         if token in t:
-            f = open('scripts/setup/{}'.format(name), 'r')
+            if '..' in name:
+                raise ApiError('relative paths not allowed')
+            f = open(os.path.join(path, 'scripts', 'setup', name), 'r')
             c = f.read()
             return c
         raise ApiError('invalid token', 401)
