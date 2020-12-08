@@ -6,13 +6,18 @@ import os
 
 timef = "%Y-%m-%d %H:%M"
 
-try:
-    from .base_utils import readjson, checkjson, writejson, gen_id, ApiError
-except ImportError:
-    from base_utils import readjson, checkjson, writejson, gen_id, ApiError
-
 app = Flask(__name__, static_folder='static')
 path = os.path.dirname(os.path.abspath(__file__))
+if not os.path.isfile(os.path.join(path, 'config.py')):
+    print('run the configure.py script first')
+    exit(1)
+
+try:
+    from .base_utils import readjson, checkjson, writejson, gen_id, ApiError
+    from .config import name
+except ImportError:
+    from base_utils import readjson, checkjson, writejson, gen_id, ApiError
+    from config import name
 
 teams_file = os.path.join(path, 'json', 'teams.json')
 vulns_file = os.path.join(path, 'json', 'vulns.json')
@@ -22,7 +27,6 @@ if jvulns == {} or jvulns == []:
     print('please enter a valid vulns.json file')
     exit(1)
 
-name = "CHANGE ME"
 total_points = 0
 for script in jvulns:
     total_points += jvulns[script]['points']
@@ -178,14 +182,9 @@ def undo():
 # endpoint to download scripts
 @app.route('/api/scripts/<name>')
 def download_script(name):
-<<<<<<< HEAD
-    if name not in os.listdir('./scripts'): abort(404)
-
-=======
     if name not in os.listdir(os.path.join(path, 'scripts')):
         abort(404)
     token = request.headers.get('token')
->>>>>>> 3a465e834abaac0babf0d2b3ceb16bbdeb707515
     checkjson('teams')
     t = readjson(teams_file)
     token = request.headers.get('token')
@@ -202,14 +201,8 @@ def download_script(name):
 # endpoint to download setup scripts
 @app.route('/api/scripts/setup/<name>')
 def download_setup_script(name):
-<<<<<<< HEAD
-    if name not in os.listdir('./scripts/setup'): abort(404)
-
-=======
     if name not in os.listdir(os.path.join(path, 'scripts', 'setup')):
         abort(404)
-    token = request.headers.get('token')
->>>>>>> 3a465e834abaac0babf0d2b3ceb16bbdeb707515
     checkjson('teams')
     t = readjson(teams_file)
     token = request.headers.get('token')

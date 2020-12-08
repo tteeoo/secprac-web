@@ -1,2 +1,3 @@
 __pycache__/
 web/json/
+web/config.py
