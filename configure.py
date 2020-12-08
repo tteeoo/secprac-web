@@ -1,5 +1,14 @@
+#!/usr/bin/env python3
 import os
+import sys
 import json
+
+# get the team name
+cname = '' 
+if len(sys.argv) < 2:
+    print('run again like this:\n\n{} "<name of this challenge>"\n\nnotice the double quotes (needed if you use any spaces)'.format(sys.argv[0]))
+    exit(1)
+cname = sys.argv[1]
 
 contents = {}
 files = os.listdir('./web/scripts')
@@ -93,3 +102,5 @@ if not os.path.isdir('./web/json'):
 # write data
 with open('./web/json/vulns.json', 'w') as e:
     json.dump(contents, e)
+with open('./web/config.py', 'w') as e:
+    e.write('name = "{}"'.format(cname))
