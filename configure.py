@@ -103,4 +103,4 @@ if not os.path.isdir('./web/json'):
 with open('./web/json/vulns.json', 'w') as e:
     json.dump(contents, e)
 with open('./web/config.py', 'w') as e:
-    e.write('name = "{}"'.format(cname))
+    e.write('game_name = "{}"'.format(cname))

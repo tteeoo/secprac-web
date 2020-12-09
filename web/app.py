@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 import os
 
-timef = "%Y-%m-%d %H:%M"
+timef = '%Y-%m-%d %H:%M'
 
 app = Flask(__name__, static_folder='static')
 path = os.path.dirname(os.path.abspath(__file__))
@@ -14,10 +14,10 @@ if not os.path.isfile(os.path.join(path, 'config.py')):
 
 try:
     from .base_utils import readjson, checkjson, writejson, gen_id, ApiError
-    from .config import name
+    from .config import game_name
 except ImportError:
     from base_utils import readjson, checkjson, writejson, gen_id, ApiError
-    from config import name
+    from config import game_name
 
 teams_file = os.path.join(path, 'json', 'teams.json')
 vulns_file = os.path.join(path, 'json', 'vulns.json')
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 # home page
 @app.route('/')
 def home():
-    return render_template('index.html', points=total_points, name=name)
+    return render_template('index.html', points=total_points, name=game_name)
 
 # about page
 @app.route('/about')
@@ -68,6 +68,7 @@ def create_team():
     if token not in teams:
         team = {
             'id': tid,
+            'done': False,
             'ip': request.remote_addr,
             'token': token,
             'points': 0,
@@ -102,6 +103,9 @@ def team_done():
     for v in vulns:
         if not vulns[v]:
             raise ApiError('team not completed', 400)
+
+    teams[token]['done'] = True
+    writejson(teams_file, teams)
 
     return {'completed': True}
 
@@ -216,6 +220,23 @@ def download_setup_script(name):
         raise ApiError('invalid token', 401)
     raise ApiError('no token provided', 401)
 
+# endpoint to get team report
+@app.route('/api/report', methods=['get'])
+def get_report():
+    checkjson('teams')
+    teams = readjson(teams_file)
+    token = request.headers.get('token')
+    name = request.headers.get('name')
+
+    if token not in teams: raise ApiError('invalid authentication', 400)
+    if teams[token]['id'] != name: raise ApiError('invalid authentication', 400)
+
+    vulns = []
+    for v in teams[token]['vulns']:
+        if teams[token]['vulns'][v]:
+            vulns.append((v, jvulns[v]['points']))
+
+    return render_template('report.html', game=(total_points, len(jvulns), game_name), done=teams[token]['done'], team=(name, teams[token]['points']), vulns=vulns)
 
 # endpoint to get info for one team
 @app.route('/api/public/team/<name>', methods=['get'])
@@ -227,10 +248,7 @@ def get_team(name):
     for k in teams:
         id_teams[teams[k]['id']] = {}
         id_teams[teams[k]['id']]['points'] = teams[k]['points']
-        try:
-            id_teams[teams[k]['id']]['times'] = teams[k]['times']
-        except KeyError:
-            id_teams['times'] = {}
+        id_teams[teams[k]['id']]['times'] = teams[k]['times']
 
     if name not in id_teams: raise ApiError('invalid team', 400)
 
@@ -289,7 +307,7 @@ if not debug:
     @app.errorhandler(Exception)
     def error(e):
         code = 500
-        name = "Internal Server Error"
+        name = 'Internal Server Error'
 
         if isinstance(e, HTTPException):
             code = e.code
