@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/x-icon" href="file:///usr/local/share/secprac/secprac-info.png"> 
+</head>
+<body>
+	<style>
+		* {
+			font-family: "Fira Sans Light", Verdana, Geneva, sans-serif;
+		}
+		body, html {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background-color: #fefefe;
+			color: #000;
+		}
+		img {
+			width: 0.75em;
+			height: 0.75em;
+		}
+		#wrapper {
+			min-width: 792px;
+			width: 60%;
+			background-color: #fff;
+			border: 1px solid #aaa;
+			margin: 64px auto;
+			line-height: 1.6em;
+		}
+		#wrapper-padding {
+			padding: 32px;
+		}
+		@media only screen and (max-width: 916px) {
+			#wrapper {
+				width: 100%;
+				min-width: 0;
+				border: none;
+				margin: auto;
+			}
+		}
+	</style>
+	<script>setTimeout("location.reload(true);", 30000);</script>
+	<div id="wrapper">
+		<div id="wrapper-padding">
+			<h1>secprac scoring report</h1>
+			<h3>
+				{{ game[2] }}, Team {{ team[0] }}
+				{% if done %}
+					 - Finished
+				{% endif %}
+			</h3>
+			<h4>
+				{{ team[1] }} of {{ game[0] }} points, {{ vulns|length }} of {{ game[1] }} vulnerabilities
+			</h4>
+			{% for v in vulns %}
+				<div class="vuln">
+					{% if v[1] > 0 %}
+						<img src="file:///usr/local/share/secprac/secprac-plus.png">
+					{% else %}
+						<img src="file:///usr/local/share/secprac/secprac-minus.png">
+					{% endif %}
+					{{ v[0] }}, {{ v[1] }} points
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</body>
+</html>
