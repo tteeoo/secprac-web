@@ -248,11 +248,17 @@ def get_team(name):
     for k in teams:
         id_teams[teams[k]['id']] = {}
         id_teams[teams[k]['id']]['points'] = teams[k]['points']
+        id_teams[teams[k]['id']]['done'] = teams[k]['done']
         id_teams[teams[k]['id']]['times'] = teams[k]['times']
 
     if name not in id_teams: raise ApiError('invalid team', 400)
 
-    return id_teams[name]
+    times = []
+    for t in id_teams[name]['times'].keys():
+        times.append(datetime.fromisoformat(t))
+    time = datetime.strftime(sorted(times)[-1], timef)
+
+    return render_template('team.html', game=(total_points, game_name), done=id_teams[name]['done'], team=(name, id_teams[name]['points']), time=time)
 
 # endpoint to get leaderboard
 @app.route('/api/public/leaderboard/<per>/<page>')

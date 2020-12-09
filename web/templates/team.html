@@ -1,0 +1,24 @@
+{% extends 'parent.html' %}
+
+{% block head %}
+<title>secprac - team {{ team[] }}</title>
+<link rel="stylesheet" type="text/css" href="/static/css/about.css">
+{% endblock %}
+
+{% block body %}
+
+<h1>{{ game[1] }}</h1>
+<h2>
+	Team {{ team[0] }}
+	{% if done %}
+		 - Finished
+	{% endif %}
+</h2>
+<h3>
+	{{ team[1] }} of {{ game[0] }} points.
+</h3>
+<h3>
+	Last pinged {{ time }}
+</h3>
+
+{% endblock %}
