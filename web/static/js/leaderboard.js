@@ -1,4 +1,4 @@
-var per = 25;
+var per = 24;
 var page = 1;
 var state = {};
 var lastPage = page;
@@ -46,7 +46,7 @@ function updateBoard() {
 	} else {
 		document.getElementById('controls').style.display = 'none';
 	}
-	sub.innerHTML = state.teams  + ' teams participating' + p;
+	sub.innerHTML = ', ' + state.teams  + ' teams participating' + p;
 	let num = document.getElementById('page');
 	num.innerHTML = page;
 
