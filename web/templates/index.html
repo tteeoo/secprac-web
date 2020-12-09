@@ -8,9 +8,12 @@
 {% block body %}
 
 <img id="name" src="/static/img/secprac-name.svg"></img>
-<h1>Public Leaderboard</h1>
-<h3>{{ name }}, {{ points }} total points</h3>
-<p id="sub"></p>
+<h1>{{ name }}</h1>
+
+{% block readme %}{% endblock %}
+
+<h2>Public Leaderboard</h2>
+<p>{{ points }} total points, <span id="sub"></span></p>
 
 <noscript>JavaScript must be enabled to view the leaderboard.</noscript>
 

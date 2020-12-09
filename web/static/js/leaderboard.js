@@ -39,18 +39,14 @@ function updateBoard() {
 
 	// parse the response and set the subheading
 	let sub = document.getElementById('sub');
-	let s = '';
-	if (state.pages > 1) {
-		s = 's';
-	}
 	let p = '';
 	if (Number(state.teams) > per) {
-		p = ', ' + state.pages + ' page' + s + ' (with ' + per + ' teams per page)'
+		p = ', ' + state.pages + ' pages' + ' (with ' + per + ' teams per page)'
 		document.getElementById('controls').style.display = 'block';
 	} else {
 		document.getElementById('controls').style.display = 'none';
 	}
-	sub.innerHTML = state.teams  + ' total teams' + p;
+	sub.innerHTML = state.teams  + ' teams participating' + p;
 	let num = document.getElementById('page');
 	num.innerHTML = page;
 

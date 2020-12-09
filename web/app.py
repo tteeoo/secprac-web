@@ -40,7 +40,7 @@ if __name__ == '__main__':
 # home page
 @app.route('/')
 def home():
-    return render_template('index.html', points=total_points, name=game_name)
+    return render_template('readme.html', points=total_points, name=game_name)
 
 # about page
 @app.route('/about')

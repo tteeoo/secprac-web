@@ -17,6 +17,7 @@ td {
 }
 #controls {
 	margin: 16px auto;
+	display: none;
 }
 button {
 	font-size: 1.4em;
