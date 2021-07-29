@@ -1,0 +1,1 @@
+../../../example-scripts/setup/delete-me-setup.sh
