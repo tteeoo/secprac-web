@@ -1,4 +1,7 @@
 __pycache__/
-web/scripts/*
+web/scripts/
 web/json/
 web/config.py
+
+!web/scripts/delete-me.sh
+!web/scripts/setup/delete-me-setup.sh
