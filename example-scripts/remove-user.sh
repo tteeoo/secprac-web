@@ -1,6 +1,4 @@
 #!/bin/bash
-# remove user borg 4
+# removing user borg 4
 user="borg"
-if ! (id "$user" &> /dev/null) ; then
-	echo "FIXED"
-else
+id "$user" > /dev/null 2>&1 || echo "FIXED"
